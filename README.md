@@ -92,21 +92,43 @@ Containers have their own process trees, network, users, file system
 
 ```
 +-----------+        +-----------------------------------+          +--------------+
-|  CLIENT   | ---->  |                HOST               |          |   REGISTRY   |   
-|           | <----  |                                   |          |              |
-|           |        |           Docker Daemon           |          |              |
+|  CLIENT   |        |                HOST               |          |   REGISTRY   |   
 |           |        |                                   |          |              |
-| Terminal  |        |                                   |          |              |
+|           |        |    +-------------------------+    |          |  Docker Hub  |
+|  Terminal | ---->  |    |      Docker Daemon      |    | ------>  |              |
+|           | <----  |    |                         |    |          |              |
+|    or     |        |    +-------------------------+    |          |              |
+|           |        |                                   |          |    Images    |
+|  Docker   |        |                                   |          |  Extensions  |
+|  Desktop  |        | +------------+       +----------+ |          |    Plugins   |
+|           |        | | Containers | <---- |  Images  | |  <-----  |              |
+|           |        | +------------+       +----------+ |          |              |
 |           |        |                                   |          |              |
-|    or     |        | +------------+       +----------+ |          |              |
-|           |        | | Containers | <---- |  Images  | |  <----   |  Docker Hub  |
-|  Docker   |        | +------------+       +----------+ |          |              |
-|  Desktop  |        |                                   |          |              |
 +-----------+        +-----------------------------------+          +--------------+
  
 ```
 
+Docker is using the Linux kernel to run the containers
+
+On Windows and Mac there is a Linux virtual machine created for you that runs the containers
+
+
+**Docker client** (`docker`): the part you interact with. The client sends your commands to `dockerd`. The client can communicate with more than one daemon.
+
+**Docker daemon** (`dockerd`): the background service that manages Docker objects (e.g.: images, containers, networks, volumes) on your machine
+
 # How to install docker
+
+### Terminal
+
+On Linux you can use the CLI based verison of Docker: https://docs.docker.com/engine/
+
+### Docker Desktop
+
+Follow the official installation: 
+- Linux: https://docs.docker.com/desktop/setup/install/linux/ubuntu/
+- Windows: https://docs.docker.com/desktop/setup/install/windows-install/
+- Mac: https://docs.docker.com/desktop/setup/install/mac-install/
 
 # Running your first container
 
@@ -141,11 +163,6 @@ For more examples and ideas, visit:
  https://docs.docker.com/get-started/
 
 ```
-
-**Docker client**: the part you interact with
-
-**Docker daemon**: the background service that manages Docker on your machine
-
 When you run this command:
 - The Docker client contacted the Docker daemon
 - Docker daemon checks if the hello-world image is available locally.
@@ -175,7 +192,7 @@ The `hello-world` image is now stored locally on your system. This means that if
 
 **CREATED**: The time when the image was created (helps you know if you have the most recent version)
 
-**SIZE:**: The size of the image on disk
+**SIZE**: The size of the image on disk
 
 # Docker hub
 
@@ -189,6 +206,9 @@ https://hub.docker.com/
 ```
 docker pull hello-world
 ```
+Q: Why use `docker pull` and not just `docker run`?
+
+A: `docker runs` includes `docker pull` so you don't need to separately run `docker pull`. But if you know what the image you will be using, you can download it beforehand with `docker pull`. Later, when you want to start your container, it will start up much faster because the image is already downloaded and available locally.
 
 # Docker containers
 ```

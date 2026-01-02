@@ -51,3 +51,21 @@ $ docker images
 my-nginx       v1        058f4935d1cb   2 days ago       152MB
 nginx          latest    058f4935d1cb   2 days ago       152MB
 ```
+
+## Inspecting containers
+- To get detailed information about a container in JSON format:
+```bash
+$ docker inspect nginx-detached
+```
+- This can be overwhelming
+- Use the `-f` option to filter the output
+```bash
+$ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' nginx-detached
+```
+```bash
+$ docker inspect -f '{{.State.Status}}' nginx-detached
+```
+- You can get certain details with different commands
+```bash
+$ docker port nginx-detached
+```

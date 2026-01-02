@@ -115,6 +115,6 @@ $ docker pull hello-world
 - Containers are easily portable, can run anywhere, and will work the same way on any machine 
 ```bash
 $ docker ps
-CONTAINER ID   IMAGE               COMMAND                  CREATED          STATUS          PORTS     NAMES
+CONTAINER ID   IMAGE                    COMMAND                  CREATED        STATUS        PORTS    NAMES
 f3f3b3b3b3b3   docker/getting-started   "/docker-entrypoint.…"   1 minute ago   Up 1 minute   80/tcp   festive_mendel
 ```

@@ -171,6 +171,36 @@ $ docker exec -it nginx-detached /bin/bash
 $ docker exec -e VAR_A=1 -e VAR_B=1 nginx-detached env
 ```
 
+# Copy files from/into the container
+- You can copy files between the host and docker container
+```bash
+$ docker cp SRC_PATH DEST_PATH
+```
+- You can copy in both directions: host to container or container to host
+- The path has to specify the container name:
+```bash
+$ docker cp SRC_PATH CONTAINER:DEST_PATH
+$ docker cp CONTAINER:SRC_PATH DEST_PATH
+```
+- The file path in the container is always relative to the container's root directory
+- The file path on the host can be absolute or relative to the working directory where the `docker cp` command is run
+- Directories are copied recursively with permissions preserved if possible
+- To copy a file from the host to the container (and check the file was copied):
+```bash
+$ docker cp index.html nginx-detached:/usr/share/nginx/html/index.html
+$ docker exec nginx-detached cat /usr/share/nginx/html/index.html
+```
+- To copy a file from the container to the host (and check the file was copied):
+```bash
+$ docker cp nginx-detached:/etc/nginx/nginx.conf ~/project/nginx.conf
+$ ls -l ~/project/nginx.conf
+```
+- To copy a file to stdout(Note that `cp` produces a tar stream)
+```bash
+$ docker cp ginx-detached:/var/logs/app.log - | tar x -O | grep "ERROR"
+```
+
+
 ## Volumes
 - By default data inside a container lives only as long as container lives. If the container exits, crashes or stopped, the data inside is lost.
 - Volumes are persistent data storages for containers, that are outside of the container, meaning they reside on the host even after the container was stopped or removed
@@ -191,8 +221,8 @@ $ docker run --volume <volume-name>:<mount-path>
 ```bash
 $ docker run -d --name nginx-volume -p 8081:80 -v ~/home/myuser/nginx-data:/usr/share/nginx/html nginx
 ```
-- `-d` run the container is detached mode
-- `--name` name the container `nginx-volume`. If omitted, Docker generates a random name for the container
+- `-d` runs the container is detached mode
+- `--name` names the container `nginx-volume`. If omitted, Docker generates a random name for the container
 - `-v` mounts the `~/home/myuser/nginx-data` directory from the host to the `/usr/share/nginx/html` directory in the container
     - `/usr/share/nginx/html` is the directory where nginx looks for content to serve
 

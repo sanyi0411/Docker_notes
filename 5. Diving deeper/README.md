@@ -143,6 +143,42 @@ $ docker logs -f nginx-detached
 $ docker logs --timestamps nginx-detached
 ```
 
+## Environment variables
+- To create a new environment variable during container creation:
+    - the `-e` option sets a new environment variable
+    - `--name` sets the name of the container 
+    - `-d` starts the container in detached mode
+```bash
+$ docker run --name env-var -e MY_VAR="Hello Docker" -d ubuntu sleep infinity
+```
+
+- To check if the varible has been created:
+    - `env` is the command to list all set environment variables
+```bash
+$ docker exec env-var env | grep MY_VAR
+```
+- You should see your variables in the output
+
+- To add environment variables from a file:
+    - Create file
+    - Type in there the variables in `KEY=value` format, with every variable on a new line
+    - Use the `--env-file` option when running the container
+```bash
+$ nano env_file
+MYVAR=Hello World
+MYOTHERVAR=1234
+```
+```bash
+$ docker run --name env-var-from-file --env-file env_file -d ubuntu sleep infinity
+```
+- To check if the varibles have been created:
+    - `env` is the command to list all set environment variables
+```bash
+$ docker exec env-var-from-file env
+$ docker exec env-var-from-file env | grep -E "MYVAR|MYOTHERVAR"
+``` 
+- You should see your variables in the output
+
 ## Execute commands in the container
 - You can execute command in a running container
     - The command only runs while the container's primary process (`PID 1`) is running
@@ -166,7 +202,7 @@ $ docker exec -it nginx-detached /bin/bash
 - The new shell will inherit the container's environment variables
 - Use the `-e` or `--env` option to set new variables (or override existing)
     - Below command first adds two new environment variables
-    - Then the `env` command will list all environment variables, includin the new ones
+    - Then the `env` command will list all environment variables, including the new ones
 ```bash
 $ docker exec -e VAR_A=1 -e VAR_B=1 nginx-detached env
 ```
@@ -200,7 +236,6 @@ $ ls -l ~/project/nginx.conf
 $ docker cp ginx-detached:/var/logs/app.log - | tar x -O | grep "ERROR"
 ```
 
-
 ## Volumes
 - By default data inside a container lives only as long as container lives. If the container exits, crashes or stopped, the data inside is lost.
 - Volumes are persistent data storages for containers, that are outside of the container, meaning they reside on the host even after the container was stopped or removed
@@ -225,6 +260,20 @@ $ docker run -d --name nginx-volume -p 8081:80 -v ~/home/myuser/nginx-data:/usr/
 - `--name` names the container `nginx-volume`. If omitted, Docker generates a random name for the container
 - `-v` mounts the `~/home/myuser/nginx-data` directory from the host to the `/usr/share/nginx/html` directory in the container
     - `/usr/share/nginx/html` is the directory where nginx looks for content to serve
+
+- Unlike a bind mount, you can create and manage a volume outside the scopre of any container
+``` bash
+$ docker volumer create myvolume
+$ docker volume ls
+local myvolume
+$ docker volume inspect myvolume
+[
+    {
+        ...
+    }
+]
+$ docker volume rm myvolume
+```
 
 ### When to use volumes
 - Use volumes to persist data generated and used by containers

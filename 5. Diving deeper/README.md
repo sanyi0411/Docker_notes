@@ -295,3 +295,33 @@ $ docker volume rm myvolume
     - After removing the volume, the pre-existing files will be available again
 
 ## Bind mounts
+
+## Limiting container resources
+- By default a container has no constraints on the resources it can use
+- Docker allows you to limit these resources
+- `Hard limit`: a container cannot use more of the given resource than the set amount
+- `Soft limit`: a container can use more than the set limit as long as the given conditions are not met, e.g. kernel detects low memory, or the limit is set on the host machine
+
+- To start a container with resource limits:
+    - `--name` sets the name of the container
+    - `-d` starts the container in detached mode
+    - `--memory` sets that the container can use maximum 512 MBs of memory
+    - `--cpus` sets that the container can half a CPU core
+```bash
+$ docker run --name limited-container -d --memory=512m --cpus=0.5 nginx
+```
+- To see if the resource constraints were correctly set:
+    - The memory output will be in bytes
+    - The CPU output will be in nano-units
+```bash
+$ docker inspect -f '{{.HostConfig.Memory}}' limited-container
+$ docker inspect -f '{{.HostConfig.NanoCpus}}' limited-container
+```
+
+- Other limits you can set (not complete list):
+    - `--memory-swap`
+    - `--memory-swappiness`
+    - `--kernel-memory`
+    - `--cpu-period=<value>`
+    - `--cpu-rt-runtime=<value>`
+    

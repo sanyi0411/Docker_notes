@@ -207,7 +207,7 @@ $ docker exec -it nginx-detached /bin/bash
 $ docker exec -e VAR_A=1 -e VAR_B=1 nginx-detached env
 ```
 
-# Copy files from/into the container
+## Copy files from/into the container
 - You can copy files between the host and docker container
 ```bash
 $ docker cp SRC_PATH DEST_PATH

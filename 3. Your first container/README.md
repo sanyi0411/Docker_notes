@@ -49,7 +49,11 @@ For more examples and ideas, visit:
 When you run this command:
 - The Docker client contacted the Docker daemon
 - Docker daemon checks if the `hello-world` image is available locally.
-- If not, it automatically downloads (aka "pulls") the image from Docker Hub.
+- If not, it automatically downloads (aka "pulls") the image from Docker Hub (or any other registry if set)
 - Docker daemon creates a new container based on this image.
-- The container runs, the container's output was sent back to your terminal, and then the container exits.
+- Docker allocates a read-write filesystem to the container (this is the final layer)
+- Docker creates a network interface to connect the container to the default network
+   - By default, containers can connect to external networks using the host machine's network connection
+- The container starts
+- The container's output was sent back to your terminal, and then the container exits.
 

@@ -60,9 +60,9 @@ Official Docker documentation: https://docs.docker.com/
  
 ```
 
-Docker is using the Linux kernel to run the containers
-
-On Windows and Mac there is a Linux virtual machine created for you that runs the containers
+- Docker is using the Linux kernel to run the containers
+- On Windows and Mac there is a Linux virtual machine created for you that runs the containers
+- The Docker client and daemon communicate using a REST API
 
 ## Docker images
 

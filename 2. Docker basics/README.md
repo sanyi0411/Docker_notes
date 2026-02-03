@@ -64,11 +64,37 @@ Official Docker documentation: https://docs.docker.com/
 - On Windows and Mac there is a Linux virtual machine created for you that runs the containers
 - The Docker client and daemon communicate using a REST API
 
+## Docker daemon
+
+- Listens for API requests
+- Manages Docker images, containers, networks, volumes
+- Communicates with other daemons to manage services
+
+## Docker client
+
+- Primary way for users to interact with Docker
+- Sends command to the daemon
+- A client can communicate with more than one daemon
+
+## Docker hub
+
+https://hub.docker.com/
+
+- **Docker Hub**: A cloud-based registry, serving as a central repository, service where you can store, find and share container images. A public repository for Docker images. You can find pre-built images for many popular software applications. 
+- **Official Images**: Curated by Docker and are typically well-maintained and documented.
+- **Pull Command**: Command to manually download the image without running a container.
+```bash
+$ docker pull hello-world
+```
+- Q: Why use `docker pull` and not just `docker run`?
+- A: `docker run` includes `docker pull` so you don't need to separately run `docker pull`. But if you know what the image you will be using, you can download it beforehand with `docker pull`. Later, when you want to start your container, it will start up much faster because the image is already downloaded and available locally.
+
 ## Docker images
 
 - An image is like a blueprint or a template for creating a container. An image is a standardized package that includes all of the files, binaries, libraries dependencies and configurations to run a container.
 - Images are composed of layers. Each layer represents a set of file system changes (add, remove, modify)
 - Every command in the Dockerfile is a set of file system change, so each layer can be matched to a line in the Dockerfile
+- When you rebuild an image only those which have changed are rebuilt
 - Images are immutable, they cannot be modified. You can either create a new image or add a layer on top of an image
 
 - To see the images available on your local system:
@@ -95,20 +121,9 @@ hello-world    latest  feb5d9fea6a5   2 weeks ago   13.3kB
 - **CREATED**: The time when the image was created (helps you know if you have the most recent version)
 - **SIZE**: The size of the image on disk
 
-## Docker hub
-
-https://hub.docker.com/
-
-- **Docker Hub**: A cloud-based registry, serving as a central repository, service where you can store, find and share container images. A public repository for Docker images. You can find pre-built images for many popular software applications. 
-- **Official Images**: Curated by Docker and are typically well-maintained and documented.
-- **Pull Command**: Command to manually download the image without running a container.
-```bash
-$ docker pull hello-world
-```
-- Q: Why use `docker pull` and not just `docker run`?
-- A: `docker run` includes `docker pull` so you don't need to separately run `docker pull`. But if you know what the image you will be using, you can download it beforehand with `docker pull`. Later, when you want to start your container, it will start up much faster because the image is already downloaded and available locally.
-
 ## Docker containers
+
+- A container is a runnable instance of an image
 - A container is an isolated process, it has minimal influence on the host and other containers
 - Containers are self-contained, they have everything they need to function, with no reliance on any pre-installed dependencies on the host machine
 - Containers are independent. Deleting one container will not effect any other container

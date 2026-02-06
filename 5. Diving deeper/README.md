@@ -258,7 +258,7 @@ $ docker run -d --name nginx-volume -p 8081:80 -v ~/home/myuser/nginx-data:/usr/
 ```
 - `-d` runs the container is detached mode
 - `--name` names the container `nginx-volume`. If omitted, Docker generates a random name for the container
-- `-v` mounts the `~/home/myuser/nginx-data` directory from the host to the `/usr/share/nginx/html` directory in the container
+- `-v` (or `--volume`) mounts the `~/home/myuser/nginx-data` directory from the host to the `/usr/share/nginx/html` directory in the container
     - `/usr/share/nginx/html` is the directory where nginx looks for content to serve
 
 - Unlike a bind mount, you can create and manage a volume outside the scopre of any container
@@ -324,4 +324,3 @@ $ docker inspect -f '{{.HostConfig.NanoCpus}}' limited-container
     - `--kernel-memory`
     - `--cpu-period=<value>`
     - `--cpu-rt-runtime=<value>`
-    
